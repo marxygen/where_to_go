@@ -10,6 +10,7 @@ class PlaceImageAdmin(SortableAdminMixin, admin.ModelAdmin):
 
 
 class PlaceImageInline(SortableTabularInline):
+    """Inline Widget to display place images right in `Place` model admin"""
     model = PlaceImage
 
     readonly_fields = ["image_preview"]

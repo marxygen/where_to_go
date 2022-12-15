@@ -4,17 +4,20 @@ from django.db import models
 from django.conf import settings
 from tinymce.models import HTMLField
 
+
 class PlaceImage(models.Model):
     title = models.CharField(max_length=255, verbose_name='Заголовок')
     image = models.ImageField(verbose_name='Файл изображения')
-    place = models.ForeignKey(to='places.Place', on_delete=models.CASCADE, verbose_name='Место', related_name='image', null=True)
+    place = models.ForeignKey(to='places.Place', on_delete=models.CASCADE, verbose_name='Место', related_name='image',
+                              null=True)
     order = models.PositiveSmallIntegerField(default=0, null=True, blank=True, verbose_name='Порядковый номер',
-                                help_text='Если не указан, будет сортирован автоматически', db_index=True)
+                                             help_text='Если не указан, будет сортирован автоматически', db_index=True)
 
     class Meta:
         verbose_name = 'Сопроводительное изображение'
         verbose_name_plural = 'Сопроводительные изображения'
-        ordering = ('order', )
+        ordering = ('order',)
+        unique_together = ('title', 'image', 'place', 'order')
 
     def __str__(self):
         return f'{self.title}, #{self.order}'
