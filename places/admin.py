@@ -1,7 +1,11 @@
 from django.contrib import admin
 from places.models import Place, PlaceImage
 from django.utils.html import format_html
-from adminsortable2.admin import SortableTabularInline, SortableAdminMixin, SortableAdminBase
+from adminsortable2.admin import (
+    SortableTabularInline,
+    SortableAdminMixin,
+    SortableAdminBase,
+)
 
 
 @admin.register(PlaceImage)
@@ -11,16 +15,17 @@ class PlaceImageAdmin(SortableAdminMixin, admin.ModelAdmin):
 
 class PlaceImageInline(SortableTabularInline):
     """Inline Widget to display place images right in `Place` model admin"""
+
     model = PlaceImage
 
     readonly_fields = ["image_preview"]
-    fields = ('title', 'image_preview', 'order')
+    fields = ("title", "image_preview", "order")
 
     def image_preview(self, obj):
-        return format_html('<img src="{url}" style="max-height: 200px; aspect-ratio={aspect_ratio}"/>'.format(
-            url=obj.image.url,
-            aspect_ratio=int(obj.image.width / obj.image.height)
-        )
+        return format_html(
+            '<img src="{url}" style="max-height: 200px; aspect-ratio={aspect_ratio}"/>'.format(
+                url=obj.image.url, aspect_ratio=int(obj.image.width / obj.image.height)
+            )
         )
 
 

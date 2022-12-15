@@ -9,7 +9,13 @@ def show_start_page(request):
     # Don't really like the idea of embedding the data into the page (not sure that's what was intended)
     # DRF with JSON would be much better (as in places/views.py)
     places = Place.objects.all()
-    return render(request, 'index.html', context={'geojson': {
-      "type": "FeatureCollection",
-      "features": [place.to_geojson() for place in places]
-    }})
+    return render(
+        request,
+        "index.html",
+        context={
+            "geojson": {
+                "type": "FeatureCollection",
+                "features": [place.to_geojson() for place in places],
+            }
+        },
+    )

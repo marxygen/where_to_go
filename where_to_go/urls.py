@@ -21,8 +21,8 @@ from django.conf.urls.static import static
 from pages.views import show_start_page
 
 urlpatterns = [
-                  path('', show_start_page),
-                  path('admin/', admin.site.urls),
-    path('places/', include('places.urls')),
-path('tinymce/', include('tinymce.urls')),
-              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path("", show_start_page),
+    path("admin/", admin.site.urls),
+    path("places/", include("places.urls")),
+    path("tinymce/", include("tinymce.urls")),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
