@@ -106,7 +106,8 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
+# WARNING: uncomment in production
+# .env
 .venv
 env/
 venv/

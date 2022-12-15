@@ -1,6 +1,6 @@
 import json
 
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 import requests
 from places.models import Place, PlaceImage
 from django.core.files.base import ContentFile
@@ -10,7 +10,7 @@ class Command(BaseCommand):
     help = "Load information about a place from specified JSON file"
 
     def add_arguments(self, parser):
-        parser.add_argument("url")
+        parser.add_argument("URL")
 
     def handle(self, *args, **options):
         url = options.pop("url")
