@@ -3,26 +3,26 @@ import os
 from django.db import models
 from django.conf import settings
 
+
 class PlaceImage(models.Model):
-    title = models.CharField(max_length=255, verbose_name='Заголовок',
-                             help_text='Если данное изображение привязано к объекту "Место", будет показано имя объекта. '
-                                       'В противном случае, будет показан данный текст')
+    title = models.CharField(max_length=255, verbose_name='Заголовок')
     image = models.ImageField(verbose_name='Файл изображения')
-    order = models.IntegerField(default=1, null=True, blank=True, verbose_name='Порядковый номер', help_text='Если не указан, будет сортирован автоматически')
+    place = models.ForeignKey(to='places.Place', on_delete=models.CASCADE, verbose_name='Место', related_name='image', null=True)
+    order = models.IntegerField(default=1, null=True, blank=True, verbose_name='Порядковый номер',
+                                help_text='Если не указан, будет сортирован автоматически')
 
     class Meta:
         verbose_name = 'Сопроводительное изображение'
         verbose_name_plural = 'Сопроводительные изображения'
 
     def __str__(self):
-        return f'{self.place.first() or self.title}, #{self.order}'
+        return f'{self.title}, #{self.order}'
 
 
 class Place(models.Model):
     title = models.CharField(max_length=255, verbose_name='Название')
     description_short = models.TextField(verbose_name='Короткое описание')
     description_long = models.TextField(verbose_name='Длинное описание')
-    images = models.ManyToManyField(PlaceImage, verbose_name='Картинки', blank=True, related_name='place')
 
     # Might consider using a specialized model (e.g. GeoDjango's Point) instead
     latitude = models.DecimalField(max_digits=22, decimal_places=16, verbose_name='Широта')
@@ -38,7 +38,7 @@ class Place(models.Model):
         return {
             'title': self.title,
             'imgs': [
-                os.path.join(settings.MEDIA_URL, img.image.url) for img in self.images.order_by('order')
+                os.path.join(settings.MEDIA_URL, img.image.url) for img in self.image.order_by('order')
             ],
             'description_short': self.description_short,
             'description_long': self.description_long,
@@ -50,16 +50,17 @@ class Place(models.Model):
 
     def to_geojson(self) -> dict:
         return {
-                    "type": "Feature",
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [self.longitude, self.latitude]
-                    },
-                    "properties": {
-                        "title": self.title,
-                        "placeId": self.id,
-                        "detailsUrl": f"/places/{self.id}"
-                    }
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [self.longitude, self.latitude]
+            },
+            "properties": {
+                "title": self.title,
+                "placeId": self.id,
+                "detailsUrl": f"/places/{self.id}"
+            }
         }
+
     def __str__(self):
         return self.title
