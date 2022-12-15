@@ -2,7 +2,7 @@ import os
 
 from django.db import models
 from django.conf import settings
-
+from tinymce.models import HTMLField
 
 class PlaceImage(models.Model):
     title = models.CharField(max_length=255, verbose_name='Заголовок')
@@ -23,7 +23,7 @@ class PlaceImage(models.Model):
 class Place(models.Model):
     title = models.CharField(max_length=255, verbose_name='Название')
     description_short = models.TextField(verbose_name='Короткое описание')
-    description_long = models.TextField(verbose_name='Длинное описание')
+    description_long = HTMLField(verbose_name='Длинное описание')
 
     # Might consider using a specialized model (e.g. GeoDjango's Point) instead
     latitude = models.DecimalField(max_digits=22, decimal_places=16, verbose_name='Широта')

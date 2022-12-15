@@ -40,9 +40,9 @@ INSTALLED_APPS = [
     # Local apps
     'pages',
     'places',
-
     # 3rd party libs
-    'adminsortable2'
+    'adminsortable2',
+    'tinymce'
 ]
 
 MIDDLEWARE = [
