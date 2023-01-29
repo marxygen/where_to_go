@@ -11,7 +11,7 @@ class PlaceImage(models.Model):
         to="places.Place",
         on_delete=models.CASCADE,
         verbose_name="Место",
-        related_name="image",
+        related_name="images",
         null=True,
     )
     order = models.PositiveSmallIntegerField(
@@ -57,7 +57,7 @@ class Place(models.Model):
             "title": self.title,
             "imgs": [
                 os.path.join(settings.MEDIA_URL, img.image.url)
-                for img in self.image.order_by("order")
+                for img in self.images.order_by("order")
             ],
             "description_short": self.description_short,
             "description_long": self.description_long,
