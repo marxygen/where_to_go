@@ -6,7 +6,6 @@ from tinymce.models import HTMLField
 
 
 class PlaceImage(models.Model):
-    title = models.CharField(max_length=255, verbose_name="Заголовок")
     image = models.ImageField(verbose_name="Файл изображения")
     place = models.ForeignKey(
         to="places.Place",
@@ -28,7 +27,7 @@ class PlaceImage(models.Model):
         verbose_name = "Сопроводительное изображение"
         verbose_name_plural = "Сопроводительные изображения"
         ordering = ("order",)
-        unique_together = ("title", "image", "place", "order")
+        unique_together = ("image", "place", "order")
 
     def __str__(self):
         return f"{self.title}, #{self.order}"
