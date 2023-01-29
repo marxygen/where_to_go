@@ -125,12 +125,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = env("STATIC_URL")
-STATICFILES_DIRS = env.list(
-    "STATICFILES_DIRS",
-    default=[
+STATICFILES_DIRS = [
         BASE_DIR / "static",
-    ],
-)
+    ]
 
 MEDIA_URL = env("MEDIA_URL")
 MEDIA_ROOT = env("MEDIA_ROOT", default=BASE_DIR / "media")
