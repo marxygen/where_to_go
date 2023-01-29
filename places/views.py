@@ -1,9 +1,6 @@
-import os
-
 from django.http import JsonResponse
 from places.models import Place
 from django.shortcuts import get_object_or_404
-from django.conf import settings
 
 
 def jsonify_place(place: Place) -> dict:
@@ -11,10 +8,7 @@ def jsonify_place(place: Place) -> dict:
     # Usually DRF's Serializer / ModelSerializer are used for this purpose
     return {
         "title": place.title,
-        "imgs": [
-            os.path.join(settings.MEDIA_URL, img.image.url)
-            for img in place.images.order_by("order")
-        ],
+        "imgs": [img.image.url for img in place.images.all()],
         "description_short": place.description_short,
         "description_long": place.description_long,
         "coordinates": {"lng": str(place.longitude), "lat": str(place.latitude)},
