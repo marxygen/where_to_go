@@ -11,7 +11,7 @@ def jsonify_place(place: Place) -> dict:
         "imgs": [img.image.url for img in place.images.all()],
         "description_short": place.description_short,
         "description_long": place.description_long,
-        "coordinates": {"lng": str(place.longitude), "lat": str(place.latitude)},
+        "coordinates": {"lng": place.longitude, "lat": place.latitude},
     }
 
 
