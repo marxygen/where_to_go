@@ -16,7 +16,6 @@ class PlaceImage(models.Model):
     )
     order = models.PositiveSmallIntegerField(
         default=0,
-        null=True,
         blank=True,
         verbose_name="Порядковый номер",
         help_text="Если не указан, будет сортирован автоматически",
