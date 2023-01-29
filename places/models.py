@@ -29,7 +29,7 @@ class PlaceImage(models.Model):
         unique_together = ("image", "place", "order")
 
     def __str__(self):
-        return f"{self.title}, #{self.order}"
+        return f"{self.place.title}, #{self.order}"
 
 
 class Place(models.Model):
