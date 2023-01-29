@@ -1,5 +1,21 @@
 from django.shortcuts import render
 from places.models import Place
+from django.urls import reverse
+
+
+def place_to_geojson(place: Place) -> dict:
+    return {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [place.longitude, place.latitude],
+        },
+        "properties": {
+            "title": place.title,
+            "placeId": place.id,
+            "detailsUrl": reverse('retrieve_place', args=[place.id]),
+        },
+    }
 
 
 def show_start_page(request):
@@ -15,7 +31,7 @@ def show_start_page(request):
         context={
             "geojson": {
                 "type": "FeatureCollection",
-                "features": [place.to_geojson() for place in places],
+                "features": [place_to_geojson(place) for place in places],
             }
         },
     )

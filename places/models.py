@@ -1,7 +1,4 @@
-import os
-
 from django.db import models
-from django.conf import settings
 from tinymce.models import HTMLField
 
 
@@ -48,34 +45,6 @@ class Place(models.Model):
     class Meta:
         verbose_name = "Место"
         verbose_name_plural = "Места"
-
-    def jsonify(self) -> dict:
-        """Generate and return JSON representation"""
-        # Usually DRF's Serializer / ModelSerializer are used for this purpose
-        return {
-            "title": self.title,
-            "imgs": [
-                os.path.join(settings.MEDIA_URL, img.image.url)
-                for img in self.images.order_by("order")
-            ],
-            "description_short": self.description_short,
-            "description_long": self.description_long,
-            "coordinates": {"lng": str(self.longitude), "lat": str(self.latitude)},
-        }
-
-    def to_geojson(self) -> dict:
-        return {
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates": [self.longitude, self.latitude],
-            },
-            "properties": {
-                "title": self.title,
-                "placeId": self.id,
-                "detailsUrl": f"/places/{self.id}",
-            },
-        }
 
     def __str__(self):
         return self.title
