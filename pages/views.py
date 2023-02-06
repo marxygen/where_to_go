@@ -19,7 +19,8 @@ def place_to_geojson(place: Place) -> dict:
 
 
 def show_start_page(request):
-    """Render start page HTML
+    """
+    Render start page HTML
     Includes data about places on the map into HTML (not a good approach)
     """
     # Don't really like the idea of embedding the data into the page (not sure that's what was intended)
