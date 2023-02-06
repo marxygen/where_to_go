@@ -33,12 +33,11 @@ class Command(BaseCommand):
 
         if not created:
             print(f"Place {place.title} already exists")
-            raise SystemExit()
+            place.images.all().delete()
 
         for index, image_url in enumerate(images):
             print(f"Processing image #{index+1}", end="\r")
             PlaceImage.objects.get_or_create(
-                title=place.title,
                 order=index,
                 place=place,
                 image=ContentFile(
@@ -46,5 +45,4 @@ class Command(BaseCommand):
                 ),
             )
 
-        if created:
-            print(f"Added place {place.title}")
+        print(f"{'Added' if created else 'Updated'} place {place.title}")
