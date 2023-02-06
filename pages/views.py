@@ -13,7 +13,7 @@ def place_to_geojson(place: Place) -> dict:
         "properties": {
             "title": place.title,
             "placeId": place.id,
-            "detailsUrl": reverse('retrieve_place', args=[place.id]),
+            "detailsUrl": reverse("retrieve_place", args=[place.id]),
         },
     }
 
