@@ -19,7 +19,7 @@ class PlaceImageInline(SortableTabularInline):
     model = PlaceImage
 
     readonly_fields = ["image_preview"]
-    fields = ("title", "image_preview", "order")
+    fields = ("image_preview", "order")
 
     def image_preview(self, obj):
         return format_html(
