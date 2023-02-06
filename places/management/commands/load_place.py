@@ -10,7 +10,7 @@ class Command(BaseCommand):
     help = "Load information about a place from specified JSON file"
 
     def add_arguments(self, parser):
-        parser.add_argument("URL")
+        parser.add_argument("--url", required=True, help='Path to JSON file with place details')
 
     def handle(self, *args, **options):
         url = options.pop("url")
