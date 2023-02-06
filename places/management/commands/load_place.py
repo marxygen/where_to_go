@@ -27,7 +27,9 @@ class Command(BaseCommand):
         contents.update(
             {"latitude": coordinates["lat"], "longitude": coordinates["lng"]}
         )
-        place, created = Place.objects.get_or_create(**contents)
+        place, created = Place.objects.update_or_create(
+            title=contents.pop("title"), defaults=contents
+        )
 
         if not created:
             print(f"Place {place.title} already exists")
