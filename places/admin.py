@@ -21,11 +21,11 @@ class PlaceImageInline(SortableTabularInline):
     readonly_fields = ["image_preview"]
     fields = ("image_preview", "order")
 
-    def image_preview(self, obj):
+    def image_preview(self, image):
         return format_html(
-            '<img src="{url}" style="max-height: 200px; aspect-ratio={aspect_ratio}"/>'.format(
-                url=obj.image.url, aspect_ratio=int(obj.image.width / obj.image.height)
-            )
+            '<img src="{url}" style="max-height: 200px; aspect-ratio={aspect_ratio}"/>',
+            url=image.image.url,
+            aspect_ratio=int(image.image.width / image.image.height),
         )
 
 
