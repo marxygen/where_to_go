@@ -10,15 +10,19 @@ class Command(BaseCommand):
     help = "Load information about a place from specified JSON file"
 
     def add_arguments(self, parser):
-        parser.add_argument("--url", required=True, help='Path to JSON file with place details')
+        parser.add_argument(
+            "--url", required=True, help="Path to JSON file with place details"
+        )
 
     def handle(self, *args, **options):
         url = options.pop("url")
         if not url:
             raise ValueError(f"You must specify a URL to JSON file!")
 
-        contents = json.loads(requests.get(url).text)
-        images = contents.pop("imgs")
+        r = requests.get(url)
+        r.raise_for_status()
+        contents = r.json()
+        images = contents.pop("imgs", [])
         coordinates = contents.pop("coordinates")
         contents.update(
             {"latitude": coordinates["lat"], "longitude": coordinates["lng"]}
