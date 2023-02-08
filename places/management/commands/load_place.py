@@ -20,13 +20,17 @@ class Command(BaseCommand):
         r = requests.get(url)
         r.raise_for_status()
         contents = r.json()
-        images = contents.pop("imgs", [])
-        coordinates = contents.pop("coordinates")
-        contents.update(
-            {"latitude": coordinates["lat"], "longitude": coordinates["lng"]}
-        )
+
+        images = contents.get("imgs", [])
+        coordinates = contents.get("coordinates")
+        data = {
+            'latitude': coordinates["lat"],
+            'longitude': coordinates["lng"],
+            'short_description': coordinates.get('description_short'),
+            'long_description': coordinates.get('description_long')
+        }
         place, created = Place.objects.update_or_create(
-            title=contents.pop("title"), defaults=contents
+            title=contents.pop("title"), defaults=data
         )
 
         if not created:
