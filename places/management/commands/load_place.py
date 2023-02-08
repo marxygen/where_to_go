@@ -13,7 +13,7 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        url = options.pop("url")
+        url = options.get("url")
         if not url:
             raise ValueError(f"You must specify a URL to JSON file!")
 
