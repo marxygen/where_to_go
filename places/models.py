@@ -32,7 +32,7 @@ class PlaceImage(models.Model):
 class Place(models.Model):
     title = models.CharField(max_length=255, verbose_name="Название")
     short_description = models.TextField(verbose_name="Короткое описание")
-    long_description = HTMLField(verbose_name="Длинное описание")
+    long_description = HTMLField(verbose_name="Длинное описание", blank=True)
 
     # Might consider using a specialized model (e.g. GeoDjango's Point) instead
     latitude = models.DecimalField(
