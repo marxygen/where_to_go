@@ -128,7 +128,7 @@ STATIC_URL = env("STATIC_URL")
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
-STATIC_ROOT = env('STATIC_ROOT', default=BASE_DIR / "assets")
+STATIC_ROOT = env("STATIC_ROOT", default=BASE_DIR / "assets")
 
 MEDIA_URL = env("MEDIA_URL")
 MEDIA_ROOT = env("MEDIA_ROOT", default=BASE_DIR / "media")

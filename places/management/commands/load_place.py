@@ -24,12 +24,13 @@ class Command(BaseCommand):
         images = contents.get("imgs", [])
         coordinates = contents.get("coordinates")
         place, created = Place.objects.update_or_create(
-            title=contents["title"], defaults={
-                'latitude': coordinates["lat"],
-                'longitude': coordinates["lng"],
-                'short_description': contents['description_short'],
-                'long_description': contents.get('description_long')
-            }
+            title=contents["title"],
+            defaults={
+                "latitude": coordinates["lat"],
+                "longitude": coordinates["lng"],
+                "short_description": contents["description_short"],
+                "long_description": contents.get("description_long"),
+            },
         )
 
         if not created:
@@ -44,9 +45,7 @@ class Command(BaseCommand):
             PlaceImage.objects.get_or_create(
                 order=index,
                 place=place,
-                image=ContentFile(
-                    response.content, name=image_url.split("/")[-1]
-                ),
+                image=ContentFile(response.content, name=image_url.split("/")[-1]),
             )
 
         print(f"{'Added' if created else 'Updated'} place {place.title}")
