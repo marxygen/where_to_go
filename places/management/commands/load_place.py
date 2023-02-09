@@ -23,14 +23,13 @@ class Command(BaseCommand):
 
         images = contents.get("imgs", [])
         coordinates = contents.get("coordinates")
-        data = {
-            'latitude': coordinates["lat"],
-            'longitude': coordinates["lng"],
-            'short_description': contents['description_short'],
-            'long_description': contents.get('description_long')
-        }
         place, created = Place.objects.update_or_create(
-            title=contents.pop("title"), defaults=data
+            title=contents["title"], defaults={
+                'latitude': coordinates["lat"],
+                'longitude': coordinates["lng"],
+                'short_description': contents['description_short'],
+                'long_description': contents.get('description_long')
+            }
         )
 
         if not created:
